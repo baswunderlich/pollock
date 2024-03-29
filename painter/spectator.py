@@ -4,13 +4,13 @@ from cryptography.fernet import Fernet
 from painter.key_generator.key_generator import make_key_for_fernet
 import base64
 
-def decode_secret(img_path: str, key: str = "", termination_symbol: str ="///") -> str:
-    message = get_message_from_image(img_path=img_path, termination_symbol=termination_symbol)
+def get_secret_message(img_path: str, key: str = "", termination_symbol: str ="///") -> str:
+    message = _get_message_from_image(img_path=img_path, termination_symbol=termination_symbol)
     if not key == "":
-        message = decode_message(message, key)
+        message = _decode_message(message, key)
     return base64.urlsafe_b64decode(message)
     
-def get_message_from_image(img_path: str, termination_symbol: str) -> any: 
+def _get_message_from_image(img_path: str, termination_symbol: str) -> any: 
     message: bytearray = bytearray()
     with Image.open(img_path) as img:
         current_part = "0b"
@@ -25,10 +25,9 @@ def get_message_from_image(img_path: str, termination_symbol: str) -> any:
                         message.append(cur_as_int)
                         current_part = "0b"
         message = message[0:len(message)-3]
-        print(message)
         return message
 
-def decode_message(message: bytes, key: str):
+def _decode_message(message: bytes, key: str):
     key = make_key_for_fernet(key)
     f = Fernet(key)
     return f.decrypt(bytes(message) + b"==")

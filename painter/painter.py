@@ -4,11 +4,11 @@ from cryptography.fernet import Fernet
 import base64
 from painter.key_generator.key_generator import make_key_for_fernet
 
-def hide_message(img_path: str, message: str = "Hello World!", key: str = "", termination_symbol: str = ""):
+def hide_message(img_path: str, message: str = "Hello World!", key: str = "", termination_symbol: str = "///"):
     message = base64.urlsafe_b64encode(bytes(message, "utf-8"))
     print(message)
     if not key == "":
-        message = encrypt_message(message=message, key=key)
+        message = _encrypt_message(message=message, key=key)
     message += bytes(termination_symbol, "ascii")
     with Image.open(img_path) as img:
         newimg = Image.new(img.mode, img.size)
@@ -31,11 +31,11 @@ def hide_message(img_path: str, message: str = "Hello World!", key: str = "", te
                 newimg.putpixel(xy=(x,y), value=(int(new_pixel_bin, 2), org_pixel[1], org_pixel[2]))
                 x += 1
 
-        fill_rest_of_image(img=img, newimg=newimg, x=x, y=y)
+        _fill_rest_of_image(img=img, newimg=newimg, x=x, y=y)
 
     newimg.save(img_path[:-4]+"_secret.png")
 
-def fill_rest_of_image(img: Image, newimg: Image, x, y):
+def _fill_rest_of_image(img: Image, newimg: Image, x, y):
     #fill the rest of the line with the original pixels
     for rest_x in range(x, img.width):
         newimg.putpixel((rest_x,y), img.getpixel((rest_x,y)))
@@ -45,7 +45,7 @@ def fill_rest_of_image(img: Image, newimg: Image, x, y):
             newimg.putpixel((x,y), img.getpixel((x,y)))
     return newimg
 
-def encrypt_message(message: str, key: str):
+def _encrypt_message(message: str, key: str):
     key = make_key_for_fernet(key)
     f = Fernet(key)
     return f.encrypt(message)
