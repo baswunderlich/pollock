@@ -6,7 +6,6 @@ from painter.key_generator.key_generator import make_key_for_fernet
 
 def hide_message(img_path: str, message: str = "Hello World!", key: str = "", termination_symbol: str = "///"):
     message = base64.urlsafe_b64encode(bytes(message, "utf-8"))
-    print(message)
     if not key == "":
         message = _encrypt_message(message=message, key=key)
     message += bytes(termination_symbol, "ascii")

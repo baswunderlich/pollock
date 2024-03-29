@@ -4,7 +4,7 @@ from cryptography.fernet import Fernet
 from painter.key_generator.key_generator import make_key_for_fernet
 import base64
 
-def get_secret_message(img_path: str, key: str = "", termination_symbol: str ="///") -> str:
+def get_secret_message(img_path: str, key: str = "", termination_symbol: str ="///") -> bytes:
     message = _get_message_from_image(img_path=img_path, termination_symbol=termination_symbol)
     if not key == "":
         message = _decode_message(message, key)

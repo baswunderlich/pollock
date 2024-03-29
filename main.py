@@ -24,6 +24,7 @@ if not decode_mode:
     painter.hide_message(img_path=img_path, message=message_to_hide, key=key, termination_symbol=termination_symbol)
 else:
     result = spectator.get_secret_message(img_path=img_path, key=key, termination_symbol=termination_symbol)
+    result = result.decode("ascii")
     if output:
         file.write(result)
     else:
