@@ -7,7 +7,7 @@ file = open("result.txt", "w")
 
 parser = argparse.ArgumentParser("Hide messages in images")
 parser.add_argument("-m", "--message", action="store", nargs="+", help="Necessary when encrypting a message")
-parser.add_argument("-k", "--key", action="store", required=False, help="The key which is/was used for encryption. This field is necessary when encrypting and decrypting")
+parser.add_argument("-k", "--key", action="store", required=True, help="The key which is/was used for encryption. This field is necessary when encrypting and decrypting")
 parser.add_argument("-d", "--decode", action="store_true", required=False, help="Switches the mode to ''decoding'' instead of ''encoding''")
 parser.add_argument("-o", "--output", action="store_true", required=False, help="When set, writes the output in the result.txt file instead of printing in the console")
 parser.add_argument("-i", "--image", action="store", required=True, help="Specifies the image in which the message should be embedded")
