@@ -1,6 +1,6 @@
 # Overview
 
-With this tool, you can hide messages in images
+With "pollock", you can hide messages in images. It uses cryptography to encrypt the message this message gets then embedded in the specified image (steganography). Therefore you are able to communicate in plain sight without anyone knowing there is a second meaning to what you are saying.
 
 ## Encryption
 
